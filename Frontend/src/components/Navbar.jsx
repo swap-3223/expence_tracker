@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import "flowbite";
+import { MdDarkMode,MdLightMode } from "react-icons/md";
+
 
 function Navbar() {
+    const [theme, setTheme] = useState("dark");
+  const handleTheme=()=>{(setTheme(theme === "light" ? "dark" : "light"))}
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+      <nav className="fixed  left-0 w-full bg-white top-0 z-50 shadow-md bg-whit border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             href="#"
@@ -84,10 +88,10 @@ function Navbar() {
                 </a>
               </li>
               <li>
-                <a
+                <button onClick={handleTheme}
                   href="#"
                   className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                ></a>
+                >{theme === "dark" ? <MdDarkMode size={24} /> : <MdLightMode size={24} />}</button>
               </li>
             </ul>
           </div>

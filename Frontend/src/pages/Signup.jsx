@@ -1,24 +1,25 @@
 import { useState } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "./Footer";
 
 export default function Example() {
-  const [theme, setTheme] = useState("Dark");
-  const handleTheme=()=>{(setTheme(theme === "Light" ? "Dark" : "Light"))}
+
 
   return (
     <>
-      <div className={`flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 
-      ${theme === "Light" ? 'bg-black' : ""}`}>
-        <div className="flex justify-end items-center pt-0 m-0">
+    {/* <Navbar/> */}
+      <div className={`mt-8 flex min-h-full flex-col justify-center px-5 py-10 lg:px-8 `}>
+        {/* <div className="flex justify-end items-center pt-0 m-0">
                   <button 
                   onClick={handleTheme}>{theme}</button>
 
-        </div>{" "}
+        </div>{" "} */}
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
+          {/* <img
             alt="Your Company"
             src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
             className="mx-auto h-10 w-auto"
-          />
+          /> */}
           <h2 className="mt-10 text-center text-2xl/9 font-bold text-indigo-500">
             Register
           </h2>
@@ -34,11 +35,8 @@ export default function Example() {
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
                   type="text"
                   required
-                  autoComplete="email"
                   placeholder="John"
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-gray-500 outline-none placeholder:text-gray-500 focus:outline-2 border border-indigo-500 sm:text-sm/6"
                 />
@@ -98,8 +96,7 @@ export default function Example() {
               </div>
               <div className="mt-2">
                 <input
-                  id="password"
-                  name="password"
+                 
                   type="password"
                   required
                   placeholder="re-type password"
@@ -129,6 +126,7 @@ export default function Example() {
           </p>
         </div>
       </div>
+      {/* <Footer/> */}
     </>
   );
 }
