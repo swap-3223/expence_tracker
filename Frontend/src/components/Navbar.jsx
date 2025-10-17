@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import "flowbite";
 import { MdDarkMode,MdLightMode } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 
 function Navbar() {
@@ -9,7 +10,7 @@ function Navbar() {
   const handleTheme=()=>{(setTheme(theme === "light" ? "dark" : "light"))}
   return (
     <>
-      <nav className="fixed  left-0 w-full bg-white top-0 z-50 shadow-md bg-whit border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+      {/* <nav className="fixed  left-0 w-full bg-white top-0 z-50 shadow-md bg-whit border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             href="#"
@@ -164,7 +165,24 @@ function Navbar() {
             </li>
           </ul>
         </div>
-      </nav>
+      </nav> */}
+
+       {/* Navbar */}
+            <nav className="fixed  left-0 w-full bg-white top-0 z-50 shadow-md bg-whit dark:bg-gray-900 dark:border-gray-700   flex justify-between items-center px-10 py-6 border-b border-gray-700">
+              <Link to='/' className="text-2xl font-bold text-blue-400">ExpenseTracker</Link>
+      
+              <div className="space-x-6 text-white">
+                <Link to='/Dashbord' className="hover:text-blue-400 transition">Dashbord</Link>
+                <Link  className="hover:text-blue-400 transition">About</Link>
+                <Link href="#contact" className="hover:text-blue-400 transition">Contact</Link>
+                <Link
+                  to="/Login"
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md text-white"
+                >
+                  Login
+                </Link>
+              </div>
+            </nav>
     </>
   );
 }
