@@ -4,7 +4,7 @@ import heroImg from "../assets/imgg.png"; // use any illustration or replace wit
 
 const Home = () => {
   return (
-    <section className="min-h-screen bg-gradient-to-b mt-10 from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col">
+    <section className="min-h-screen bg-gradient-to-b mt-15 from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col">
      
 
       {/* Hero Section */}

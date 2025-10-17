@@ -9,10 +9,7 @@ import Profile from './components/Profile'
 import Home from './pages/Home';
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
-
-
 import DashbordHome from './components/DashbordHome';
-
 
 function App() {
    const router = createBrowserRouter([
@@ -27,6 +24,10 @@ function App() {
           path:'dashbord',
           element:<Dashbord/>,
           children:[
+        {
+          index:true,
+          element:<DashbordHome/>
+        },
         {
           path:'history',
           element:<History/>
