@@ -5,9 +5,14 @@ import Dashbord from './components/Dashbord'
 import ReportsPage from './components/ReportPage';
 import History from './components/History';
 import AddExpense from './components/AddExpense'
+import Profile from './components/Profile'
 import Home from './pages/Home';
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
+
+
+import DashbordHome from './components/DashbordHome';
+
 
 function App() {
    const router = createBrowserRouter([
@@ -25,6 +30,15 @@ function App() {
         {
           path:'history',
           element:<History/>
+        },
+        {
+          path:'profile',
+          element:<Profile/>
+
+        },
+        {
+          path:'dashbordHome',
+          element:<DashbordHome/>
         },
         { 
           path: "reports", 
