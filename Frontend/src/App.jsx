@@ -10,6 +10,8 @@ import Home from './pages/Home';
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import DashbordHome from './components/DashbordHome';
+import Contact from './components/Contact';
+import About from './components/About';
 
 function App() {
    const router = createBrowserRouter([
@@ -62,6 +64,19 @@ function App() {
     {
       path:'/signup',
       element:<Signup/>
+    },
+    {
+      path:'/contact',
+      element:<Contact/>
+    },
+    {
+      path:'/about',
+      element:<About/>
+    },
+    {
+      path:'/profile',
+      element:<Profile/>
+
     }
    ]);
 

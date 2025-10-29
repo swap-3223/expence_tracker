@@ -9,6 +9,13 @@ function Navbar() {
   const [theme, setTheme] = useState("light");
   const [isLoggedin, setIsLoggedin] = useState(false);
 
+  useEffect(()=>{
+    const res = JSON.parse(localStorage.getItem('user'))
+    if(res){
+      setIsLoggedin(res.isLoggedin)
+    console.log(isLoggedin)
+    }
+  },[])
 
   // Apply theme class to <html>
   useEffect(() => {
@@ -20,6 +27,10 @@ function Navbar() {
   }, [theme]);
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+
+  const handleLogout=()=>{
+    localStorage.clear();
+  }
 
   return (
     <nav className="fixed top-0 left-0 w-full z-[60] bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
@@ -76,7 +87,7 @@ function Navbar() {
             Profile
           </Link> */}
           {isLoggedin ? <Link
-            to="/profile"
+            to="profile"
             onClick={() => setMenuOpen(false)}
             className="block hover:text-blue-600 dark:hover:text-blue-400"
           >
@@ -89,7 +100,12 @@ function Navbar() {
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition"
           >
             Login
-          </Link> : ""}
+          </Link> : <button
+            onClick={handleLogout}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition"
+          >
+            Logout
+          </button>}
         </div>
 
         {/* 🔹 Hamburger Button (Mobile) */}
@@ -126,7 +142,7 @@ function Navbar() {
             Contact
           </Link>
           {isLoggedin ? <Link
-            to="/profile"
+            to="profile"
             onClick={() => setMenuOpen(false)}
             className="block hover:text-blue-600 dark:hover:text-blue-400"
           >
@@ -157,7 +173,7 @@ function Navbar() {
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition"
           >
             Login
-          </Link> : ""}
+          </Link> : "Logout"}
         </div>
       )}
     </nav>

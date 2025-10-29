@@ -1,23 +1,30 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
-
+import axios from 'axios'
 const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [isLoggedin, setIsLoggedin] = useState(false);
+
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 👇 Replace this with real authentication later
-    if (form.email && form.password) {
-      alert("Login successful!");
-      navigate("/dashboard");
-    } else {
-      alert("Please fill in all fields!");
+    try {
+    const res = await axios.post('http://localhost:5000/api/v1/users/login',{email: form.email,password: form.password})
+      console.log(res.data)
+      if(res){
+      // alert("Loggedin")
+      localStorage.setItem('user',JSON.stringify({isLoggedin:true,email:form.email}))
+      navigate('/')
     }
+    } catch (error) {
+      console.log(error)
+    }
+    
   };
 
   return (
@@ -61,6 +68,7 @@ const Login = () => {
           </div>
 
           <button
+
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-md text-white font-semibold transition"
           >
