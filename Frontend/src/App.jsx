@@ -1,90 +1,98 @@
-import React from 'react'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
-import AppLayout from './components/AppLayout'
-import Dashbord from './components/Dashbord'
-import ReportsPage from './components/ReportPage';
-import History from './components/History';
-import AddExpense from './components/AddExpense'
-import Profile from './components/Profile'
-import Home from './pages/Home';
-import Login from "./pages/Login"
-import Signup from "./pages/Signup"
-import DashbordHome from './components/DashbordHome';
-import Contact from './components/Contact';
-import About from './components/About';
-
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppLayout from "./components/AppLayout";
+import Dashbord from "./components/Dashbord";
+import ReportsPage from "./components/ReportPage";
+import History from "./components/History";
+import AddExpense from "./components/AddExpense";
+import Profile from "./components/Profile";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import DashbordHome from "./components/DashbordHome";
+import Contact from "./components/Contact";
+import About from "./components/About";
+import PvtComponent from "./components/ProtedtedComp";
+import { Toaster } from "react-hot-toast";
 function App() {
-   const router = createBrowserRouter([
-    { path:'/',
-      element:<AppLayout/>,
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AppLayout />,
       children: [
-        { 
-          index: true, 
-          element: <Home/> 
+        {
+          index: true,
+          element: <Home />,
         }, // default page
         {
-          path:'dashbord',
-          element:<Dashbord/>,
-          children:[
-        {
-          index:true,
-          element:<DashbordHome/>
+          path: "dashbord",
+          element: (
+            <PvtComponent>
+              <Dashbord />
+            </PvtComponent>
+          ),
+          children: [
+            {
+              index: true,
+              element: <DashbordHome />,
+            },
+            {
+              path: "history",
+              element: <History />,
+            },
+            {
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "dashbordHome",
+              element: <DashbordHome />,
+            },
+            {
+              path: "reports",
+              element: <ReportsPage />,
+            },
+            {
+              path: "addexpense",
+              element: <AddExpense />,
+            },
+          ],
         },
-        {
-          path:'history',
-          element:<History/>
-        },
-        {
-          path:'profile',
-          element:<Profile/>
 
+        {
+          path: "/contact",
+          element: <Contact />,
         },
         {
-          path:'dashbordHome',
-          element:<DashbordHome/>
+          path: "/about",
+          element: <About />,
         },
-        { 
-          path: "reports", 
-          element: <ReportsPage /> 
+        {
+          path: "/profile",
+          element: (
+            <PvtComponent>
+              <Profile />
+            </PvtComponent>
+          ),
         },
-        { 
-          path: "addexpense", 
-          element: <AddExpense /> 
-        },
-      ]
-
-        },
-        
       ],
     },
     {
-      path:'/login',
-      element:<Login/>
+      path: "/login",
+      element: <Login />,
     },
     {
-      path:'/signup',
-      element:<Signup/>
+      path: "/signup",
+      element: <Signup />,
     },
-    {
-      path:'/contact',
-      element:<Contact/>
-    },
-    {
-      path:'/about',
-      element:<About/>
-    },
-    {
-      path:'/profile',
-      element:<Profile/>
-
-    }
-   ]);
+  ]);
 
   return (
     <>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
+      <Toaster position="top-right" reverseOrder={false} /> {/* ✅ */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

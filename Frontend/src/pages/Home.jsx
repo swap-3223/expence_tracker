@@ -1,28 +1,79 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import heroImg from "../assets/imgg.png"; // use any illustration or replace with your own
+import { ReactTyped } from "react-typed";
 
 const Home = () => {
+  const [isLoggedin,setIsLoggedin] = useState(false)
+  const [user,setUser] = useState([])
+
+  
+    useEffect(()=>{
+      const res = JSON.parse(localStorage.getItem('user'))
+    if(res){
+    setIsLoggedin(res.isLoggedin)
+    setUser(res)
+    }
+    },[])
+
+    const typed = <ReactTyped
+        strings={[
+           "daily",
+    "monthly",
+    "personal",
+    "business",
+    "travel",
+    "food",
+    "utility",
+        ]}
+        typeSpeed={80}       // typing speed
+        backSpeed={50}       // backspacing speed
+        loop                 // keep repeating
+      />
+  
   return (
     <section className="min-h-screen bg-gradient-to-b mt-15 from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col">
      
-
+     {/* Greeting */}
+          
       {/* Hero Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center flex-grow px-10 md:px-20 py-10">
-        <div className="md:w-1/2 space-y-6">
-          <h2 className="text-5xl font-bold leading-tight">
-            Manage your <span className="text-blue-400">expenses</span> easily and stay in control.
+      <div className="flex flex-col md:flex-row justify-between items-center flex-grow px-10 md:px-20 py-15">
+      
+        <div className="md:w-1/2 space-y-6 flex flex-col">
+       <div>{isLoggedin && (
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-300">
+              Hello,{" "}
+              <span className="text-amber-300  font-bold">Swapnil</span> 👋
+            </h2>
+          )}</div>
+ <h2 className="text-4xl md:text-5xl font-extrabold leading-snug -mt-6">
+            <span className="block">
+              Manage your{" "}
+              <span
+                className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 
+                inline-block min-w-[140px] font-bold animate-[glow_1.5s_ease-in-out_infinite]"
+              >
+                {typed}
+              </span>{" "}
+              expenses easily
+            </span>
+            <span className="block text-gray-300">and stay in control.</span>
           </h2>
           <p className="text-gray-300 text-lg">
             Track your income and spending effortlessly. Gain insights into your financial habits and make better decisions with our smart expense tracker.
           </p>
           <div className="space-x-4">
-            <Link
-              to="/dashboard"
+            {isLoggedin ? <Link
+              to='/dashbord'
               className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-md text-white font-semibold"
             >
               Start Tracking
-            </Link>
+            </Link> : <Link
+              to='/login'
+              className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-md text-white font-semibold"
+            >
+              Start Tracking
+            </Link>}
             <a
               href="#features"
               className="border border-blue-400 px-6 py-3 rounded-md text-blue-400 hover:bg-blue-600 hover:text-white transition"
@@ -70,9 +121,16 @@ const Home = () => {
         </div>
       </section>
 
-      
+{/* Glow animation */}
+      <style>
+        {`
+          @keyframes glow {
+            0%, 100% { text-shadow: 0 0 8px #3b82f6; }
+            50% { text-shadow: 0 0 20px #60a5fa; }
+          }
+        `}
+      </style>      
     </section>
   );
 };
-
 export default Home;

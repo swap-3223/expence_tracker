@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import axios from 'axios'
+import toast from "react-hot-toast";
 const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [loading, setLoding] = useState(false);
 
 
   const handleChange = (e) =>
@@ -16,13 +17,24 @@ const Login = () => {
     try {
     const res = await axios.post('http://localhost:5000/api/v1/users/login',{email: form.email,password: form.password})
       console.log(res.data)
-      if(res){
+      if(form.email && form.password){
       // alert("Loggedin")
+      setLoding(true)
       localStorage.setItem('user',JSON.stringify({isLoggedin:true,email:form.email}))
+      toast.success("Login Successfully")
+      setTimeout(() => {
       navigate('/')
+        
+      }, 1000);
+    }else{
+      toast.error("Please fill in all fields!");
+      
     }
     } catch (error) {
       console.log(error)
+      if(error.status === 401){
+        toast.error("Email or Password is Wrong :(")
+      }
     }
     
   };
@@ -48,6 +60,7 @@ const Login = () => {
           <div>
             <label className="block mb-2">Email</label>
             <input
+              required="true"
               type="email"
               name="email"
               onChange={handleChange}
@@ -59,6 +72,7 @@ const Login = () => {
           <div>
             <label className="block mb-2">Password</label>
             <input
+              required="true"
               type="password"
               name="password"
               onChange={handleChange}
@@ -72,7 +86,7 @@ const Login = () => {
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-md text-white font-semibold transition"
           >
-            Login
+            {!loading ? "Login" : "Loading..."}
           </button>
         </form>
 

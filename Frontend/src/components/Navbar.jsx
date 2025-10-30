@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { CiUser } from "react-icons/ci";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,18 +32,23 @@ function Navbar() {
 
   const handleLogout=()=>{
     localStorage.clear();
+    toast.success("👋 You have been logged out successfully!");
+    setTimeout(() => {
+    window.location.href="/";
+    },1000 );
   }
 
   return (
     <nav className="fixed top-0 left-0 w-full z-[60] bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-8">
         
-        {/* 🔹 Brand */}
+        {/*  Brand */}
         <Link
           to="/"
           className="text-2xl font-bold text-blue-600 dark:text-blue-400"
         >
           ExpenseTracker
+          
         </Link>
 
         {/* 🔹 Desktop Menu */}
@@ -87,7 +94,7 @@ function Navbar() {
             Profile
           </Link> */}
           {isLoggedin ? <Link
-            to="profile"
+            to="/profile"
             onClick={() => setMenuOpen(false)}
             className="block hover:text-blue-600 dark:hover:text-blue-400"
           >
@@ -142,7 +149,7 @@ function Navbar() {
             Contact
           </Link>
           {isLoggedin ? <Link
-            to="profile"
+            to="/profile"
             onClick={() => setMenuOpen(false)}
             className="block hover:text-blue-600 dark:hover:text-blue-400"
           >

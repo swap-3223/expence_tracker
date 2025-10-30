@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Signup = () => {
+  useEffect(()=>{
+    
+  },[])
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -15,13 +20,21 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // 👇 Simple validation (replace with backend logic later)
-    if (form.name && form.email && form.password) {
-      alert("Signup successful!");
+    const res = axios.post('http://localhost:5000/api/v1/users/register',{
+      name:form.name,
+      email:form.email,
+      password:form.password,
+    })
+    if(form.name && form.email && form.password){
+      localStorage.setItem('user',JSON.stringify({email:res.email,isloggedin:true}))
+      toast.success("Account Created Successfully")
+      setTimeout(() => {
+        // <Navigate to="/"/>
       navigate("/login");
-    } else {
-      alert("Please fill in all fields!");
+
+      }, 1500);
+    }else {
+      toast.error("Please fill in all fields!");
     }
   };
 
@@ -46,6 +59,7 @@ const Signup = () => {
           <div>
             <label className="block mb-2">Full Name</label>
             <input
+              required="true"
               type="text"
               name="name"
               onChange={handleChange}
@@ -57,6 +71,7 @@ const Signup = () => {
           <div>
             <label className="block mb-2">Email</label>
             <input
+              required="true"            
               type="email"
               name="email"
               onChange={handleChange}
@@ -68,6 +83,7 @@ const Signup = () => {
           <div>
             <label className="block mb-2">Password</label>
             <input
+              required="true"
               type="password"
               name="password"
               onChange={handleChange}

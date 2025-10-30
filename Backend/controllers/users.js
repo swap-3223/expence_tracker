@@ -12,8 +12,11 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    if (!name || !email || !password) {
+      return res.status(400).json({ msg: "All fields are required ❌" });
+    }
     //hashing the password
-    const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcrypt.hash(password, 10);
 
     const sql = "INSERT INTO users(name,email,password) VALUES(?,?,?)";
     const data = await db.query(sql, [name, email, hashPassword]);
@@ -34,6 +37,9 @@ const registerUser = async (req, res) => {
 const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ msg: "All fields are required ❌" });
+    }
     const [users] = await db.query("select * from users where email = ?", [email]);
     if (users.length === 0) {
       return res.status(401).json({ msg: "invalid credential" });
