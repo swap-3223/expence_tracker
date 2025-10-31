@@ -43,7 +43,7 @@ const Home = () => {
        <div>{isLoggedin && (
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-300">
               Hello,{" "}
-              <span className="text-amber-300  font-bold">Swapnil</span> 👋
+              <span className="text-amber-300  font-bold">{user.name}</span> 👋
             </h2>
           )}</div>
  <h2 className="text-4xl md:text-5xl font-extrabold leading-snug -mt-6">

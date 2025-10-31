@@ -1,11 +1,23 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { openModal } from "../redux/features/ExpenseSlice";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getExpenses, openModal } from "../redux/features/ExpenseSlice";
 import { FaRupeeSign, FaShoppingCart, FaUtensils } from "react-icons/fa";
 import { MdHomeWork } from "react-icons/md";
 
 function DashbordHome() {
   const dispatch = useDispatch();
+  const {expenses=[],loading,error} = useSelector((state)=>state.expenseModal);
+
+    useEffect(() => {
+    dispatch(getExpenses());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+ const totalExpense = expenses.reduce(
+    (sum, exp) => sum + parseFloat(exp.amount || 0),
+    0
+  );
 
   return (
     <div className="flex flex-col gap-6 w-full p-6 bg-gray-50 min-h-screen">
@@ -25,7 +37,7 @@ function DashbordHome() {
         <div className="p-5 bg-white shadow-md rounded-xl flex items-center justify-between border-l-4 border-blue-500">
           <div>
             <h3 className="text-sm text-gray-500 uppercase">Total Expense</h3>
-            <p className="text-2xl font-bold text-slate-800">₹12,500</p>
+            <p className="text-2xl font-bold text-slate-800">₹{totalExpense.toFixed(2)}</p>
           </div>
           <FaRupeeSign size={30} className="text-blue-500" />
         </div>
@@ -71,13 +83,16 @@ function DashbordHome() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b hover:bg-gray-50 transition">
-              <td className="py-3">Dinner at Pizza Hut</td>
-              <td className="py-3">Food</td>
-              <td className="py-3 text-red-600 font-semibold">₹650</td>
-              <td className="py-3">2025-10-15</td>
+            {expenses.map((exp,index)=>(
+              <tr key={index} className="border-b hover:bg-gray-50 transition">
+              <td className="py-3">{exp.title}</td>
+              <td className="py-3">{exp.category}</td>
+              <td className="py-3 text-red-600 font-semibold">{exp.amount}</td>
+              <td className="py-3">  {new Date(exp.date).toLocaleDateString("en-GB")}
+</td>
             </tr>
-            <tr className="border-b hover:bg-gray-50 transition">
+            ))}
+            {/* <tr className="border-b hover:bg-gray-50 transition">
               <td className="py-3">Zara Shopping</td>
               <td className="py-3">Shopping</td>
               <td className="py-3 text-red-600 font-semibold">₹2,800</td>
@@ -88,7 +103,7 @@ function DashbordHome() {
               <td className="py-3">Rent</td>
               <td className="py-3 text-red-600 font-semibold">₹5,300</td>
               <td className="py-3">2025-10-10</td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>

@@ -7,6 +7,8 @@ const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoding] = useState(false);
+  const [user, setUser] = useState([]);
+
 
 
   const handleChange = (e) =>
@@ -17,14 +19,14 @@ const Login = () => {
     try {
     const res = await axios.post('http://localhost:5000/api/v1/users/login',{email: form.email,password: form.password})
       console.log(res.data)
+      setUser(res)
+      
       if(form.email && form.password){
-      // alert("Loggedin")
       setLoding(true)
-      localStorage.setItem('user',JSON.stringify({isLoggedin:true,email:form.email}))
+      localStorage.setItem('user',JSON.stringify({isLoggedin:true,email:form.email,name:res.data.user.name,token:res.data.token}))
       toast.success("Login Successfully")
       setTimeout(() => {
       navigate('/')
-        
       }, 1000);
     }else{
       toast.error("Please fill in all fields!");
