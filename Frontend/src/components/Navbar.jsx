@@ -15,7 +15,6 @@ function Navbar() {
     const res = JSON.parse(localStorage.getItem('user'))
     if(res){
       setIsLoggedin(res.isLoggedin)
-    console.log(isLoggedin)
     }
   },[])
 

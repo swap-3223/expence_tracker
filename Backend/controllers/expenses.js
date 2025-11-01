@@ -29,9 +29,7 @@ const getExpenses = async (req, res) => {
     const id = req.user.id;
     const sql = "SELECT * FROM expense WHERE user_id = ?";
     const [rslt] = await db.query(sql, [id]);
-    if (rslt.length === 0) {
-      return res.status(404).json({ msg: "data not found" });
-    }
+    
     return res.status(200).json({ expenses: rslt });
   } catch (error) {
     return res.status(500).json({ msg: "Internal server error" });

@@ -5,7 +5,7 @@ import { ReactTyped } from "react-typed";
 
 const Home = () => {
   const [isLoggedin,setIsLoggedin] = useState(false)
-  const [user,setUser] = useState([])
+  const [user,setUser] = useState('')
 
   
     useEffect(()=>{
@@ -30,6 +30,10 @@ const Home = () => {
         backSpeed={50}       // backspacing speed
         loop                 // keep repeating
       />
+
+const res = user?.name?.split(" ") || [];
+const fName = res[0] || ""
+const name = fName.charAt(0).toUpperCase() + fName.slice(1);
   
   return (
     <section className="min-h-screen bg-gradient-to-b mt-15 from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col">
@@ -43,7 +47,7 @@ const Home = () => {
        <div>{isLoggedin && (
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-300">
               Hello,{" "}
-              <span className="text-amber-300  font-bold">{user.name}</span> 👋
+              <span className="text-amber-300  font-bold">{name}</span> 👋
             </h2>
           )}</div>
  <h2 className="text-4xl md:text-5xl font-extrabold leading-snug -mt-6">
