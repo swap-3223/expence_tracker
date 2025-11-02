@@ -1,27 +1,23 @@
-// import React from 'react'
-// import { GiReceiveMoney,GiPayMoney } from "react-icons/gi";
-// import { MdAccountBalanceWallet } from 'react-icons/md';
-// function History() {
-//   return (
-//     <>
-//         <div className='flex h-1/3 py-5 gap-5 justify-evenly w-full px-8 '>
-//                 <div className='flex gap-3 border-2 border-gray-300 bg-gray-100 rounded-xl py-6 px-5 w-1/3 h-32 '><GiReceiveMoney size={30} color='green'/>Total Income</div>
-//                 <div className='flex gap-3 border-2 border-gray-300 bg-gray-100 rounded-xl py-6 px-5 w-1/3 h-32 '><GiPayMoney color='red' size={30}/>Total Expenses</div>
-//                 <div className='flex gap-3 border-2 border-gray-300 bg-gray-100 rounded-xl py-6 px-5 w-1/3 h-32 '><MdAccountBalanceWallet color='#2d37ad' size={30}/>Balance</div>
-//             </div>
-//     </>
-//   )
-// }
-
-// export default History
-
-
-
-import React from "react";
+import React, { useEffect } from "react";
 import { GiReceiveMoney, GiPayMoney } from "react-icons/gi";
 import { MdAccountBalanceWallet } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { getExpenses } from "../redux/features/ExpenseSlice";
 
 function History() {
+  const dispatch = useDispatch();
+  const {
+      expenses = [],
+      loading,
+      error,
+    } = useSelector((state) => state.expenseModal);
+
+  useEffect(() => {
+    dispatch(getExpenses());
+  }, [dispatch]);
+    
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
   const cards = [
     {
       title: "Total Income",
@@ -69,8 +65,35 @@ function History() {
       {/* Optional: Recent Transactions Section */}
       <div className="mt-10 bg-white rounded-xl p-6 shadow-sm border border-gray-200">
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Recent Transactions</h2>
-        <div className="text-gray-500 text-sm">No recent transactions found.</div>
-      </div>
+        {expenses.length !== 0 ? <>
+          <table className="w-full text-left text-slate-700">
+            <thead>
+              <tr className="border-b text-sm text-gray-500 uppercase">
+                <th className="py-2">Title</th>
+                <th className="py-2">Category</th>
+                <th className="py-2">Amount</th>
+                <th className="py-2">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {expenses.slice(0, 5).map((exp, index) => (
+                <tr key={index} className="border-b hover:bg-gray-50 transition">
+                  <td className="py-3">{exp.title}</td>
+                  <td className="py-3">{exp.category}</td>
+                  <td className="py-3 text-red-600 font-semibold">
+                    {exp.amount}
+                  </td>
+                  <td className="py-3">
+                    {" "}
+                    {new Date(exp.date).toLocaleDateString("en-GB")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          
+</> : <div className="text-gray-500 text-sm">No recent transactions found.</div>}
+        </div>
     </div>
   );
 }

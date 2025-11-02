@@ -1,15 +1,14 @@
   import React, { useEffect } from "react";
   import { useDispatch, useSelector } from "react-redux";
-  import {
-    closeModal,
-    getExpenses,
-    openModal,
-  } from "../redux/features/ExpenseSlice";
-  import { FaArrowAltCircleRight, FaArrowRight, FaRupeeSign, FaShoppingCart, FaUtensils } from "react-icons/fa";
+  import {closeModal,getExpenses,openModal,} from "../redux/features/ExpenseSlice";
+  import { FaArrowAltCircleRight, FaArrowRight, FaEdit, FaRupeeSign, FaShoppingCart, FaTrash, FaUtensils } from "react-icons/fa";
   import { MdHomeWork } from "react-icons/md";
   import { Link, Navigate } from "react-router-dom";
+  import toast, {} from "react-hot-toast"
+import axios from "axios";
 
   function DashbordHome() {
+    const user = JSON.parse(localStorage.getItem('user'))
     const dispatch = useDispatch();
     const {
       expenses = [],
@@ -17,7 +16,24 @@
       error,
     } = useSelector((state) => state.expenseModal);
 
-    const isOpen = useSelector((state) => state.expenseModal.valu);
+    const isOpen = useSelector((state) => state.expenseModal.value);
+
+    const handleDelete=async(id)=>{
+      const token = user?.token;
+    try {
+      const res = await axios.delete(`http://localhost:5000/api/v1/expense/deleteExpense/${id}`,
+      {headers:{
+        Authorization:`Bearer ${token}`
+      }}
+    )
+    toast.success("Expense Deleted Successfully!")
+    dispatch(getExpenses())
+    console.log(res.data);
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response?.data?.msg || "Failed to delete expense");
+  }
+};
 
   //Category-wise Data
     const categoryTotals = expenses.reduce((acc,exp)=>{
@@ -108,13 +124,14 @@
             Recent Transactions
           </h2>
 
-          <table className="w-full text-left text-slate-700">
+          {expenses.length !==0 ? <><table className="w-full text-left text-slate-700">
             <thead>
               <tr className="border-b text-sm text-gray-500 uppercase">
                 <th className="py-2">Title</th>
                 <th className="py-2">Category</th>
                 <th className="py-2">Amount</th>
                 <th className="py-2">Date</th>
+                <th className="py-2">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -129,18 +146,38 @@
                     {" "}
                     {new Date(exp.date).toLocaleDateString("en-GB")}
                   </td>
+                  <td className="py-3 flex items-center gap-3 justify-start">
+  <button
+    onClick={() => handleEdit(exp)}
+    className="p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white hover:scale-110 transition-all duration-100 shadow-sm"
+    title="Edit"
+  >
+    <FaEdit size={16} />
+  </button>
+  <button
+
+    onClick={() => handleDelete(exp.id)}
+    className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-600 hover:text-white hover:scale-110 transition-all duration-300 shadow-sm"
+    title="Delete"
+  >
+    <FaTrash size={16} />
+  </button>
+</td>
+
                 </tr>
+                
               ))}
             </tbody>
           </table>
-          <div className="w-full flex justify-end">
+          {expenses.length >= 5 ? <div className="w-full flex justify-end">
             <Link
               to="/dashbord/history"
               className="text-blue-600 text-sm font-medium hover:text-blue-800 hover:underline transition-all duration-200"
             >
               Show More <span className="text-2xl">»</span>
             </Link>
-          </div>
+          </div>: ""}</> 
+          : <div className="text-gray-500 text-sm">No recent transactions found.</div>}
         </div>
       </div>
     );

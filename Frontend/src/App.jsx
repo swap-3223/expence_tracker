@@ -14,11 +14,16 @@ import Contact from "./components/Contact";
 import About from "./components/About";
 import PvtComponent from "./components/ProtedtedComp";
 import { Toaster } from "react-hot-toast";
+import TokenChecker from "./components/TokenChecker";
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <AppLayout />,
+      element: 
+      <>
+      <TokenChecker/>
+      <AppLayout />
+      </>,
       children: [
         {
           index: true,
