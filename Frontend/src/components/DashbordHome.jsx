@@ -1,10 +1,10 @@
-  import React, { useEffect } from "react";
-  import { useDispatch, useSelector } from "react-redux";
-  import {closeModal,getExpenses,openModal,} from "../redux/features/ExpenseSlice";
-  import { FaArrowAltCircleRight, FaArrowRight, FaEdit, FaRupeeSign, FaShoppingCart, FaTrash, FaUtensils } from "react-icons/fa";
-  import { MdHomeWork } from "react-icons/md";
-  import { Link, Navigate } from "react-router-dom";
-  import toast, {} from "react-hot-toast"
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {getExpenses,openModal,openUpdateModal} from "../redux/features/ExpenseSlice";
+import {FaEdit, FaRupeeSign, FaShoppingCart, FaTrash, FaUtensils } from "react-icons/fa";
+import { MdHomeWork } from "react-icons/md";
+import { Link, Navigate } from "react-router-dom";
+import toast, {} from "react-hot-toast"
 import axios from "axios";
 
   function DashbordHome() {
@@ -148,7 +148,7 @@ import axios from "axios";
                   </td>
                   <td className="py-3 flex items-center gap-3 justify-start">
   <button
-    onClick={() => handleEdit(exp)}
+    onClick={() => dispatch(openUpdateModal(exp))}
     className="p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white hover:scale-110 transition-all duration-100 shadow-sm"
     title="Edit"
   >

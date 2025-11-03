@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from "../redux/features/ExpenseSlice";
+import {closeUpdateModal } from "../redux/features/ExpenseSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { getExpenses } from "../redux/features/ExpenseSlice";
-function AddExpense() {
+function UpdateExpense() {
   const isOpen = useSelector((state) => state.expenseModal.value);
   const dispatch = useDispatch();
   const [title,setTitle] = useState('')
   const [ amount,setAmount] = useState('')
   const [category,setCategory] = useState('')
   const [date,setDate] = useState('')
+
+
+
 
   const handleSubmit=async(e)=>{
     e.preventDefault();
@@ -24,7 +27,7 @@ function AddExpense() {
       if(!token){
         toast.error("Token not provided :(")
       }
-      const res = await axios.post('http://localhost:5000/api/v1/expense/addExpense',
+      const res = await axios.put('http://localhost:5000/api/v1/expense/updateExpense',
         {title,amount,category,date},{
           headers:{
             Authorization:`Bearer ${token}`
@@ -34,7 +37,7 @@ function AddExpense() {
     console.log(res)
     toast.success("Expense Added Successfully")
     setTimeout(() => {
-      dispatch(closeModal())
+      dispatch(closeUpdateModal())
       
     }, 300);
     dispatch(getExpenses())
@@ -48,7 +51,7 @@ function AddExpense() {
     <>
       {isOpen && (
         <div
-          onClick={() => dispatch(closeModal())}
+          onClick={() => dispatch(closeUpdateModal())}
           className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
         >
           {/* Modal Box */}
@@ -62,7 +65,7 @@ function AddExpense() {
                 Add New Expense
               </h2>
               <button
-                onClick={() => dispatch(closeModal())}
+                onClick={() => dispatch(closeUpdateModal())}
                 className="text-gray-400 hover:text-red-500 transition"
               >
                 ✕
@@ -125,7 +128,7 @@ function AddExpense() {
               <div className="flex justify-end gap-3 pt-4 border-t">
                 <button
                   type="button"
-                  onClick={() => dispatch(closeModal())}
+                  onClick={() => dispatch(closeUpdateModal())}
                   className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 hover:bg-red-500 hover:text-white transition"
                 >
                   Cancel
@@ -134,7 +137,7 @@ function AddExpense() {
                   type="submit"
                   className="px-5 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
                 >
-                  Add Expense
+                  Update Expense
                 </button>
               </div>
             </form>
@@ -145,4 +148,4 @@ function AddExpense() {
   );
 }
 
-export default AddExpense;
+export default UpdateExpense;

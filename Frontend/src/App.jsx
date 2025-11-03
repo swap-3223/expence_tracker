@@ -15,6 +15,7 @@ import About from "./components/About";
 import PvtComponent from "./components/ProtedtedComp";
 import { Toaster } from "react-hot-toast";
 import TokenChecker from "./components/TokenChecker";
+import UpdateExpense from "./components/UpdateExpense";
 function App() {
   const router = createBrowserRouter([
     {
@@ -60,6 +61,10 @@ function App() {
             {
               path: "addexpense",
               element: <AddExpense />,
+            },
+            {
+              path: "updateexpense",
+              element: <UpdateExpense/>,
             },
           ],
         },
