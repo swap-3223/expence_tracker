@@ -4,6 +4,8 @@ import {getExpenses,openModal,openUpdateModal} from "../redux/features/ExpenseSl
 import {FaEdit, FaRupeeSign, FaShoppingCart, FaTrash, FaUtensils } from "react-icons/fa";
 import { MdHomeWork } from "react-icons/md";
 import { Link, Navigate } from "react-router-dom";
+import AddExpense from "./AddExpense";
+import UpdateExpense from "./UpdateExpense";
 import toast, {} from "react-hot-toast"
 import axios from "axios";
 
@@ -16,7 +18,7 @@ import axios from "axios";
       error,
     } = useSelector((state) => state.expenseModal);
 
-    const isOpen = useSelector((state) => state.expenseModal.value);
+    const isOpen = useSelector((state) => state.expenseModal.openModal);
 
     const handleDelete=async(id)=>{
       const token = user?.token;
@@ -179,6 +181,8 @@ import axios from "axios";
           </div>: ""}</> 
           : <div className="text-gray-500 text-sm">No recent transactions found.</div>}
         </div>
+        <AddExpense />
+<UpdateExpense />
       </div>
     );
   }

@@ -5,7 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { getExpenses } from "../redux/features/ExpenseSlice";
 function AddExpense() {
-  const isOpen = useSelector((state) => state.expenseModal.value);
+  const isOpen = useSelector((state) => state.expenseModal.openModal);
   const dispatch = useDispatch();
   const [title,setTitle] = useState('')
   const [ amount,setAmount] = useState('')

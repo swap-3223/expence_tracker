@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// ✅ Fetch expenses from backend
 export const getExpenses = createAsyncThunk(
   "expenses/getExpenses",
   async (_, { rejectWithValue }) => {
     try {
-      // ✅ Get token from localStorage
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user?.token;
 
@@ -13,24 +13,23 @@ export const getExpenses = createAsyncThunk(
         return rejectWithValue("No token found, please login again");
       }
 
-      // ✅ Call API with Authorization header
       const res = await axios.get("http://localhost:5000/api/v1/expense/getExpense", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      return res.data; // should contain { expenses: [...] }
+      return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-
 const ExpenseSlice = createSlice({
   name: "expenseModal",
   initialState: {
     openModal: false,
     openUpdateModal: false,
+    selectedExpense: null, // ✅ new field
     expenses: [],
     loading: false,
     error: null,
@@ -42,11 +41,13 @@ const ExpenseSlice = createSlice({
     closeModal: (state) => {
       state.openModal = false;
     },
-    openUpdateModal: (state) => {
+    openUpdateModal: (state, action) => {
       state.openUpdateModal = true;
+      state.selectedExpense = action.payload; // ✅ store expense to edit
     },
     closeUpdateModal: (state) => {
       state.openUpdateModal = false;
+      state.selectedExpense = null; // ✅ clear selection
     },
   },
   extraReducers: (builder) => {
@@ -56,7 +57,6 @@ const ExpenseSlice = createSlice({
       })
       .addCase(getExpenses.fulfilled, (state, action) => {
         state.loading = false;
-        // ✅ Extract the array from the object
         state.expenses = action.payload.expenses;
       })
       .addCase(getExpenses.rejected, (state, action) => {
@@ -66,5 +66,11 @@ const ExpenseSlice = createSlice({
   },
 });
 
-export const { openModal, closeModal,closeUpdateModal,openUpdateModal } = ExpenseSlice.actions;
+export const {
+  openModal,
+  closeModal,
+  openUpdateModal,
+  closeUpdateModal,
+} = ExpenseSlice.actions;
+
 export default ExpenseSlice.reducer;
