@@ -84,7 +84,7 @@ function UpdateExpense() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full border rounded-md px-3 py-2"
+            className="w-full border rounded-md px-3 py-2 bg-gray-900"
           >
             <option value="">Select Category</option>
             <option value="Food">Food</option>

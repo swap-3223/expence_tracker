@@ -181,8 +181,8 @@ import axios from "axios";
           </div>: ""}</> 
           : <div className="text-gray-500 text-sm">No recent transactions found.</div>}
         </div>
-        <AddExpense />
-<UpdateExpense />
+        <AddExpense/>
+        <UpdateExpense/>
       </div>
     );
   }

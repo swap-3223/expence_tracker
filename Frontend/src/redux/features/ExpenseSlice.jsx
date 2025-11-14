@@ -12,11 +12,9 @@ export const getExpenses = createAsyncThunk(
       if (!token) {
         return rejectWithValue("No token found, please login again");
       }
-
       const res = await axios.get("http://localhost:5000/api/v1/expense/getExpense", {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);

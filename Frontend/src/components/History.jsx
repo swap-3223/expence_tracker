@@ -18,22 +18,26 @@ function History() {
     
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
+    const totalExpense = expenses.reduce(
+      (sum, exp) => sum + parseFloat(exp.amount || 0),
+      0
+    );
   const cards = [
     {
       title: "Total Income",
-      value: "₹25,000",
+      value: "This feature comming soon",
       icon: <GiReceiveMoney size={36} className="text-green-500" />,
       color: "bg-green-100",
     },
     {
       title: "Total Expenses",
-      value: "₹18,200",
+      value: `₹${totalExpense}`,
       icon: <GiPayMoney size={36} className="text-red-500" />,
       color: "bg-red-100",
     },
     {
       title: "Balance",
-      value: "₹6,800",
+      value: "This feature comming soon",
       icon: <MdAccountBalanceWallet size={36} className="text-blue-600" />,
       color: "bg-blue-100",
     },
