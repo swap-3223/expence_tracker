@@ -13,6 +13,8 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
+    phonNum: "",
+
   });
 
   const handleChange = (e) =>
@@ -24,8 +26,10 @@ const Signup = () => {
       name:form.name,
       email:form.email,
       password:form.password,
+      phonNum:form.phonNum,
+
     })
-    if(form.name && form.email && form.password){
+    if(form.name && form.email && form.password && form.phonNum){
       localStorage.setItem('user',JSON.stringify({email:res.email,isloggedin:true}))
       toast.success("Account Created Successfully")
       setTimeout(() => {
@@ -77,6 +81,18 @@ const Signup = () => {
               onChange={handleChange}
               className="w-full p-2 rounded-md bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter your email"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2">Mobile</label>
+            <input
+              required="true"            
+              type="text"
+              name="phonNum"
+              onChange={handleChange}
+              className="w-full p-2 rounded-md bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter your Mobile Number"
             />
           </div>
 
