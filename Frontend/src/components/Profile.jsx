@@ -1,20 +1,25 @@
 import React, { useState } from "react";
+import axios from 'axios'
+import { useEffect } from "react";
 import { FaUserCircle, FaEnvelope, FaPhone, FaEdit } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 
 function Profile() {
-  // Dummy user data (replace with Redux or API later)
-  const [user, setUser] = useState({
-    name: "Swapnil Wagh",
-    email: "swapnilw691@gmail.com",
-    phone: "+91 9960197836",
-    location: "Pune, Maharashtra",
-    joined: "Jan 2024",
-  });
-
+  const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [updatedUser, setUpdatedUser] = useState(user);
-
+  const localUser = JSON.parse(localStorage.getItem('user'))
+  const id = localUser.id;
+  // console.log(localUser.id)
+  useEffect(()=>{
+    axios
+    .get(`http://localhost:5000/api/v1/users/getUser/${id}`)
+    .then((res)=>{
+      setUser(res.data.userData)
+      setUpdatedUser(res.data.userData)
+    })
+  },[])
+console.log(user)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUpdatedUser({ ...updatedUser, [name]: value });
@@ -37,7 +42,11 @@ function Profile() {
             </h1>
             <p className="text-gray-500">{user.email}</p>
             <p className="text-sm text-gray-400 mt-1">
-              Member since {user.joined}
+              Member since{" "}
+  {new Date(user.created_at).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  })}
             </p>
           </div>
           <button
@@ -70,13 +79,13 @@ function Profile() {
             {isEditing ? (
               <input
                 type="text"
-                name="phone"
-                value={updatedUser.phone}
+                name="phonNum"
+                value={updatedUser.phonNum}
                 onChange={handleChange}
                 className="border border-gray-300 rounded-md px-3 py-2 w-full"
               />
             ) : (
-              <p>{user.phone}</p>
+              <p>{user.phonNum}</p>
             )}
           </div>
 
@@ -86,12 +95,12 @@ function Profile() {
               <input
                 type="text"
                 name="location"
-                value={updatedUser.location}
+                value={updatedUser.location || "India"}
                 onChange={handleChange}
                 className="border border-gray-300 rounded-md px-3 py-2 w-full"
               />
             ) : (
-              <p>{user.location}</p>
+              <p>{user.location || "India"}</p>
             )}
           </div>
         </div>

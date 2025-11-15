@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import heroImg from "../assets/imgg.png"; // use any illustration or replace with your own
+import heroImg from "../assets/imgg.png";
 import { ReactTyped } from "react-typed";
 
 const Home = () => {

@@ -23,7 +23,14 @@ const Login = () => {
       
       if(form.email && form.password){
       setLoding(true)
-      localStorage.setItem('user',JSON.stringify({isLoggedin:true,email:form.email,name:res.data.user.name,token:res.data.token}))
+      localStorage.setItem('user',JSON.stringify(
+        {
+          isLoggedin:true,
+          id:res.data.user.id,
+          email:form.email,
+          name:res.data.user.name,
+          token:res.data.token
+        }))
       toast.success("Login Successfully")
       setTimeout(() => {
       navigate('/')
@@ -62,7 +69,7 @@ const Login = () => {
           <div>
             <label className="block mb-2">Email</label>
             <input
-              required="true"
+              required
               type="email"
               name="email"
               onChange={handleChange}
@@ -74,7 +81,7 @@ const Login = () => {
           <div>
             <label className="block mb-2">Password</label>
             <input
-              required="true"
+              required
               type="password"
               name="password"
               onChange={handleChange}

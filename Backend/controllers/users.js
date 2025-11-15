@@ -8,14 +8,15 @@ require("dotenv").config();
 // ___________________________________
 
 
-const getUsers = async(req,res)=>{
+const getUserById = async(req,res)=>{
   try {
-    const sql = 'SELECT * FROM users'
-    const [rslt] = await db.query(sql)
+    const {id} = req.params;
+    const sql = 'SELECT * FROM users WHERE id = ?'
+    const [rslt] = await db.query(sql,[id])
     if(rslt.length === 0){
      return res.status(404).json({ msg: "data not found" });
     }
-    return res.status(200).json({ expenses: rslt });
+    return res.status(200).json({ userData: rslt[0] });
   } catch (error) {
     return res.status(500).json({ msg: "Internal server error" });
   }
@@ -85,4 +86,4 @@ const Login = async (req, res) => {
     res.status(500).json({ msg: "Internal Server Error ❌" });
   }
 };
-module.exports = { registerUser,Login };
+module.exports = { registerUser,Login,getUserById };
