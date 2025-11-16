@@ -7,7 +7,20 @@ require("dotenv").config();
 //Validation remaining 
 // ___________________________________
 
-
+const updatedUser = async(req,res)=>{
+  try {
+    const id = req.params.id;
+    const {name,email,phonNum} = req.body;
+    const sql = 'UPDATE users  SET name=?, email=?, phonNum =? WHERE id = ?';
+    const [rslt] = await db.query(sql,[name,email,phonNum,id])
+    if(rslt.affectedRows === 0){
+     return res.status(404).json({ msg: "data not found" });
+    }
+    return res.status(200).json({ msg: "User Update Successfully" });
+  } catch (error) {
+    return res.status(500).json({ msg: "Internal server error" });
+  }
+}
 const getUserById = async(req,res)=>{
   try {
     const {id} = req.params;
@@ -86,4 +99,4 @@ const Login = async (req, res) => {
     res.status(500).json({ msg: "Internal Server Error ❌" });
   }
 };
-module.exports = { registerUser,Login,getUserById };
+module.exports = { registerUser,Login,getUserById, updatedUser };

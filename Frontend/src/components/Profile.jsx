@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from 'axios'
 import { useEffect } from "react";
-import { FaUserCircle, FaEnvelope, FaPhone, FaEdit } from "react-icons/fa";
+import { FaUserCircle, FaEnvelope, FaPhone, FaEdit, FaUser } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
+import toast from "react-hot-toast";
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -26,6 +27,16 @@ console.log(user)
   };
 
   const handleSave = () => {
+    axios.
+    put(`http://localhost:5000/api/v1/users/updateUser/${id}`,
+       {
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phonNum: updatedUser.phonNum
+      }
+    );
+
+    toast.success("Profile updated successfully!");
     setUser(updatedUser);
     setIsEditing(false);
   };
@@ -59,6 +70,25 @@ console.log(user)
 
         {/* Profile Details */}
         <div className="mt-8 space-y-4 text-slate-700">
+
+          <div className="flex items-center gap-4">
+            {isEditing ? (
+              <>
+                <FaUser className="text-blue-600" />
+              <input
+                type="text"
+                name="name"
+                required
+                value={updatedUser.name}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md px-3 py-2 w-full"
+              />
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+
           <div className="flex items-center gap-4">
             <FaEnvelope className="text-blue-600" />
             {isEditing ? (

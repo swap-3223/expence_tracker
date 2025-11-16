@@ -6,7 +6,9 @@ import { ReactTyped } from "react-typed";
 const Home = () => {
   const [isLoggedin,setIsLoggedin] = useState(false)
   const [user,setUser] = useState('')
-
+  const localTheme = JSON.parse(localStorage.getItem('theme'))
+  const theme = localTheme.theme;
+  console.log(localTheme.theme)
   
     useEffect(()=>{
       const res = JSON.parse(localStorage.getItem('user'))
