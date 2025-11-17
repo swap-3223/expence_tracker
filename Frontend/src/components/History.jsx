@@ -1,20 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GiReceiveMoney, GiPayMoney } from "react-icons/gi";
 import { MdAccountBalanceWallet } from "react-icons/md";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getExpenses } from "../redux/features/ExpenseSlice";
+import { getExpenses,openUpdateModal } from "../redux/features/ExpenseSlice";
+import UpdateExpense from "./UpdateExpense";
+import toast from "react-hot-toast";
 
-function History() {
+
+function History() {  
+  const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
   const {
       expenses = [],
       loading,
       error,
     } = useSelector((state) => state.expenseModal);
+const isOpen = useSelector((state) => state.expenseModal.openModal);
+
+
+    const handleDelete = async (id) => {
+      const token = user?.token;
+      try {
+        const res = await axios.delete(
+          `http://localhost:5000/api/v1/expense/deleteExpense/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        toast.success("Expense Deleted Successfully!");
+        dispatch(getExpenses());
+        console.log(res.data);
+      } catch (error) {
+        console.error(error);
+        toast.error(error.response?.data?.msg || "Failed to delete expense");
+      }
+    };
 
   useEffect(() => {
     dispatch(getExpenses());
-  }, [dispatch]);
+  }, [dispatch, isOpen]);
     
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -65,39 +93,75 @@ function History() {
           </div>
         ))}
       </div>
+        <div className="mt-8 bg-white shadow-md rounded-xl p-5">
+  <h2 className="text-lg md:text-xl font-semibold text-slate-800 mb-4">
+    Recent Transactions
+  </h2>
 
-      {/* Optional: Recent Transactions Section */}
-      <div className="mt-10 bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Recent Transactions</h2>
-        {expenses.length !== 0 ? <>
-          <table className="w-full text-left text-slate-700">
-            <thead>
-              <tr className="border-b text-sm text-gray-500 uppercase">
-                <th className="py-2">Title</th>
-                <th className="py-2">Category</th>
-                <th className="py-2">Amount</th>
-                <th className="py-2">Date</th>
+  {expenses.length !== 0 ? (
+    <>
+      {/* TABLE WRAPPER FOR MOBILE SCROLL */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-slate-700 min-w-[600px] sm:min-w-full">
+          <thead>
+            <tr className="border-b text-xs sm:text-sm text-gray-500 uppercase">
+              <th className="py-2">Title</th>
+              <th className="py-2">Category</th>
+              <th className="py-2">Amount</th>
+              <th className="py-2">Date</th>
+              <th className="py-2">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {expenses.map((exp, index) => (
+              <tr
+                key={index}
+                className="border-b hover:bg-gray-50 transition"
+              >
+                <td className="py-3 text-sm sm:text-base">{exp.title}</td>
+                <td className="py-3 text-sm sm:text-base">{exp.category}</td>
+                <td className="py-3 text-red-600 font-semibold text-sm sm:text-base">
+                  {exp.amount}
+                </td>
+                <td className="py-3 text-sm sm:text-base">
+                  {new Date(exp.date).toLocaleDateString("en-GB")}
+                </td>
+
+                {/* ACTION BUTTONS RESPONSIVE */}
+                <td className="py-3 flex items-center gap-2 sm:gap-3">
+                  <button
+                    onClick={() => dispatch(openUpdateModal(exp))}
+                    className="p-1.5 sm:p-2 rounded-full bg-blue-50 text-blue-600 
+                               hover:bg-blue-600 hover:text-white hover:scale-110 
+                               transition-all duration-150 shadow-sm"
+                    title="Edit"
+                  >
+                    <FaEdit size={14} className="sm:size-16 md:size-5" />
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(exp.id)}
+                    className="p-1.5 sm:p-2 rounded-full bg-red-50 text-red-600 
+                               hover:bg-red-600 hover:text-white hover:scale-110 
+                               transition-all duration-150 shadow-sm"
+                    title="Delete"
+                  >
+                    <FaTrash size={14} className="sm:size-16 md:size-5" />
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {expenses.slice(0, 5).map((exp, index) => (
-                <tr key={index} className="border-b hover:bg-gray-50 transition">
-                  <td className="py-3">{exp.title}</td>
-                  <td className="py-3">{exp.category}</td>
-                  <td className="py-3 text-red-600 font-semibold">
-                    {exp.amount}
-                  </td>
-                  <td className="py-3">
-                    {" "}
-                    {new Date(exp.date).toLocaleDateString("en-GB")}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          
-</> : <div className="text-gray-500 text-sm">No recent transactions found.</div>}
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  ) : (
+    <div className="text-gray-500 text-sm">No recent transactions found.</div>
+  )}
+</div>
+      <UpdateExpense/>
+
     </div>
   );
 }

@@ -14,8 +14,8 @@ function Sidebar() {
   return (
     <>
       {/* 🔹 Mobile Navbar (Hamburger Button) */}
-      <div className="md:hidden flex items-center justify-between bg-gray-200 px-4 py-3 border-b border-gray-300">
-        <h1 className="text-xl font-bold text-slate-800">Expense Tracker</h1>
+      <div className="md:hidden flex items-start justify-between absolute pt-5 p-1  bg-gray-50">
+        {/* <h1 className="text-xl font-bold text-slate-800">Expense Tracker</h1> */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-slate-800 focus:outline-none"
@@ -26,7 +26,7 @@ function Sidebar() {
 
       {/* 🔹 Sidebar */}
       <div
-        className={`fixed md:static top-0 left-0 h-full md:h-auto w-64 md:w-1/4 bg-gray-200 border-r border-gray-300 flex flex-col py-10 px-5 font-semibold text-md text-zinc-800 transition-transform duration-300 ease-in-out z-50
+        className={`fixed md:static top-5 left-0 h-full md:h-auto w-64 md:w-1/4 bg-gray-200 border-r border-gray-300 flex flex-col py-10 px-5 font-semibold text-md text-zinc-800 transition-transform duration-300 ease-in-out z-50
         ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         {/* Close button for mobile */}

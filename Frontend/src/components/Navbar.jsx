@@ -8,7 +8,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState("light");
   const [isLoggedin, setIsLoggedin] = useState(false);
 
   useEffect(()=>{
@@ -17,17 +16,6 @@ function Navbar() {
       setIsLoggedin(res.isLoggedin)
     }
   },[])
-
-  // Apply theme class to <html>
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   const handleLogout=()=>{
     localStorage.clear();
@@ -38,7 +26,7 @@ function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-[60] bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
+    <nav className="fixed top-0 left-0 w-full z-60 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-8">
         
         {/*  Brand */}
@@ -72,17 +60,12 @@ function Navbar() {
           </Link>
 
           {/* 🔹 Theme Toggle */}
-          <button
-            onClick={toggleTheme}
+          {/* <button
             className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
             title="Toggle Theme"
           >
-            {theme === "light" ? (
-              <MdDarkMode size={22} className="text-gray-400" />
-            ) : (
-              <MdLightMode size={22} className="text-yellow-400" />
-            )}
-          </button>
+          Theme Toggle button
+            </button> */}
 
           {/* 🔹 Profile */}
           {/* <Link
@@ -156,7 +139,7 @@ function Navbar() {
           </Link> : " "}
 
           {/* 🔹 Theme Toggle inside mobile menu */}
-          <button
+          {/* <button
             onClick={() => {
               toggleTheme();
               setMenuOpen(false);
@@ -172,7 +155,7 @@ function Navbar() {
                 <MdLightMode size={22} /> Light Mode
               </>
             )}
-          </button>
+          </button> */}
 
            {!isLoggedin ? <Link
             to="/login"
@@ -187,3 +170,4 @@ function Navbar() {
 }
 
 export default Navbar;
+
