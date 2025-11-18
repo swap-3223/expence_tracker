@@ -17,15 +17,15 @@ function About() {
           </h1>
           <p className="text-gray-400 leading-relaxed mb-4">
             Hello 👋 I'm <span className="font-semibold text-blue-400">Swapnil Wagh</span>,
-            currently pursuing a{" "}
+            an {" "}
             <span className="font-semibold text-white">Master of Computer Applications (MCA)</span>{" "}
-            at IMRD Shirpur with a CGPA of <span className="text-blue-400">9.18 (2023–2025)</span>.
+            graduate from Institute of Management Research and Development College, Shirpur with a CGPA of <span className="text-blue-400">9.18 (2023–2025)</span>.
           </p>
           <p className="text-gray-400 leading-relaxed mb-4">
-            I developed this project to improve my frontend development skills using{" "}
-            <span className="font-semibold text-white">React.js</span> and{" "}
-            <span className="font-semibold text-white">Tailwind CSS</span> while solving a
-            real-world problem — managing personal finances efficiently.
+          {/*   */}
+            I built this project to enhance my development skills and create a practical solution for managing personal finances efficiently. It is developed using{" "}
+            <span className="font-semibold text-white">React.js, Tailwind CSS, Node.js, Express.js, MySQL, Redux Toolkit, Axios, JWT-Authentication</span> and{" "}
+            <span className="font-semibold text-white">modern UI components.</span> This project helped me improve both frontend and backend development while working on real-world functionality.
           </p>
         </div>
 
@@ -88,9 +88,8 @@ function About() {
       <div className="max-w-6xl mx-auto mt-20">
         <h2 className="text-3xl font-bold text-white mb-6">🚀 Future Plans</h2>
         <p className="text-gray-400 leading-relaxed">
-          I plan to add user authentication, chart-based analytics, and cloud storage to make
-          ExpenseTracker even more secure and powerful. The goal is to help individuals develop
-          financial awareness and achieve better control over their money.
+          I plan to introduce more advanced features such as role-based access control, AI-powered spending insights, chart-based analytics, cloud storage integration, and automated backup to make ExpenseTracker even more secure, efficient, and user-friendly.
+These enhancements will help users gain deeper financial awareness, build better budgeting habits, and take complete control of their money with smart technology.
         </p>
       </div>
     </div>

@@ -69,15 +69,12 @@ function DashbordHome() {
           className="
   bg-blue-600 hover:bg-blue-700 
   text-white 
-  px-4 py-2 text-sm        /* mobile */
+  px-3 py-2 text-sm        /* mobile */
   sm:px-5 sm:py-2 sm:text-base   /* tablets */
   md:px-6 md:py-3 md:text-lg     /* desktop */
   rounded-lg shadow-md 
   transition-all duration-200
-"
-        >
-          + Add Expense
-        </button>
+">Add Expense</button>
       </div>
 
       {/* Summary Cards */}

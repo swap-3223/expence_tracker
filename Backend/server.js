@@ -4,13 +4,15 @@ require('dotenv').config();
 const cors = require('cors')
 const userRouter = require('./routes/userRoute')
 const expenseRouter  = require('./routes/expenseRoute')
-
+const contactMsgRouter = require('./routes/contactMsgRoute')
 const app = express();
 app.use(cors())
 app.use(express.json())
 
 app.use('/api/v1/users',userRouter)
 app.use('/api/v1/expense',expenseRouter)
+app.use('/api/v1/contactMsg',contactMsgRouter)
+
 
 
 const PORT = process.env.PORT || 9000

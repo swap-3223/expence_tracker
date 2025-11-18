@@ -2,9 +2,47 @@ import React from "react";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 import Footer from "../pages/Footer";
 import Navbar from "./Navbar";
-// import contactImg from "../assets/contact.png"; // ← add your own image
+import axios from 'axios'
+import {toast} from "react-hot-toast";
+import { useState } from "react";
 
 function Contact() {
+  const [name,setName] = useState('')
+  const [email,setEmail] = useState('')
+  const [message,setMessage] = useState('')
+
+  const handleSubmit = async(e)=>{
+    e.preventDefault();
+    if (!name || !email || !message) {
+      return toast.error("All fields required");
+    }
+    try {
+      const user = JSON.parse(localStorage.getItem('user'))
+      const token = user?.token
+      if(!token){
+            return  toast.error("Please login to send message")
+            }
+      const res = await axios.post('http://localhost:5000/api/v1/contactMsg/postMsg',
+      {name,email,message},
+      {
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+
+    )
+     
+
+    console.log(res)
+    toast.success("Message Sent Successfully")
+    setName("");
+    setEmail("");
+    setMessage("");
+  }catch(error){
+    console.error("❌ Error sending message:", error.response?.data || error.message);
+    toast.error(error.response?.data?.msg || "Something went wrong");
+  }
+}
   return (
   <>
   <Navbar/>
@@ -23,11 +61,11 @@ function Contact() {
           <div className="space-y-5 pt-6">
             <div className="flex items-center gap-4">
               <FaEnvelope className="text-blue-400 text-2xl" />
-              <p>swapnilwagh@example.com</p>
+              <p>webthrower09@gmail.com</p>
             </div>
             <div className="flex items-center gap-4">
               <FaPhoneAlt className="text-green-400 text-2xl" />
-              <p>+91 98765 43210</p>
+              <p>+91 99601 97836</p>
             </div>
             <div className="flex items-center gap-4">
               <FaMapMarkerAlt className="text-red-400 text-2xl" />
@@ -39,11 +77,14 @@ function Contact() {
         {/* Right Section - Form */}
         <div className="flex-1 bg-[#1e293b] rounded-2xl p-8 shadow-lg hover:shadow-blue-900/40 transition">
           <h2 className="text-2xl font-semibold mb-6 text-white">Send a Message</h2>
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm text-gray-300 mb-2">Your Name</label>
               <input
+                value={name}
+                onChange={(e)=>setName(e.target.value)}
                 type="text"
+                required
                 placeholder="Enter your name"
                 className="w-full p-3 rounded-lg bg-[#0f172a] border border-gray-700 text-gray-200 focus:border-blue-500 focus:outline-none"
               />
@@ -51,7 +92,10 @@ function Contact() {
             <div>
               <label className="block text-sm text-gray-300 mb-2">Your Email</label>
               <input
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
                 type="email"
+                required
                 placeholder="Enter your email"
                 className="w-full p-3 rounded-lg bg-[#0f172a] border border-gray-700 text-gray-200 focus:border-blue-500 focus:outline-none"
               />
@@ -59,6 +103,9 @@ function Contact() {
             <div>
               <label className="block text-sm text-gray-300 mb-2">Message</label>
               <textarea
+                value={message}
+                onChange={(e)=>setMessage(e.target.value)}
+                required
                 placeholder="Write your message..."
                 rows="4"
                 className="w-full p-3 rounded-lg bg-[#0f172a] border border-gray-700 text-gray-200 focus:border-blue-500 focus:outline-none"
@@ -76,11 +123,6 @@ function Contact() {
 
       {/* Illustration Section */}
       <div className="max-w-4xl mx-auto mt-20 flex flex-col items-center text-center">
-        {/* <img
-        //   src={contactImg}
-          alt="Contact Illustration"
-          className="w-[300px] md:w-[400px] mb-6 drop-shadow-2xl"
-        /> */}
         <h3 className="text-2xl font-semibold text-white mb-2">We’re here to help</h3>
         <p className="text-gray-400 max-w-2xl">
           Whether you're facing issues with tracking your expenses, or want to share ideas for new features,
