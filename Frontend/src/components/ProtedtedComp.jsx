@@ -25,8 +25,6 @@ function PvtComponent({ children }) {
     localStorage.removeItem("user");
     return <Navigate to="/login" replace />;
   }
-
-  // 4️⃣ Token valid → render dashboard or child component
   return children;
 }
 

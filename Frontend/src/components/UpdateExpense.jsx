@@ -7,7 +7,9 @@ import toast from "react-hot-toast";
 function UpdateExpense() {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.expenseModal.openUpdateModal);
-  const selectedExpense = useSelector((state) => state.expenseModal.selectedExpense);
+  const selectedExpense = useSelector(
+    (state) => state.expenseModal.selectedExpense
+  );
 
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -32,8 +34,8 @@ function UpdateExpense() {
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user?.token;
 
-      const res = await axios.put(
-        `http://localhost:5000/api/v1/expense/updateExpense/${selectedExpense.id}`,
+      await axios.put(
+        `http://localhost:4000/api/v1/expense/updateExpense/${selectedExpense.id}`,
         { title, amount, category, date },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -43,7 +45,6 @@ function UpdateExpense() {
       toast.success("Expense updated successfully!");
       dispatch(closeUpdateModal());
       dispatch(getExpenses());
-      console.log(res.data);
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.msg || "Update failed");
@@ -55,15 +56,35 @@ function UpdateExpense() {
   return (
     <div
       onClick={() => dispatch(closeUpdateModal())}
-      className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+      className="
+        fixed inset-0 z-999 flex items-center justify-center 
+        bg-black/60 backdrop-blur-md px-4
+      "
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative bg-white dark:bg-gray-900 text-slate-800 dark:text-gray-100 rounded-2xl shadow-lg w-full max-w-md p-6"
+        className="
+          relative w-full max-w-md p-6 rounded-2xl 
+          bg-[#1B1B1D]/95 text-[#F9F6EF]
+          shadow-[0_8px_30px_rgba(0,0,0,0.65)]
+          border border-[#A0937D]/40
+        "
       >
-        <div className="flex items-center justify-between border-b pb-3 mb-4">
-          <h2 className="text-xl font-semibold text-blue-600">Update Expense</h2>
-          <button onClick={() => dispatch(closeUpdateModal())}>✕</button>
+        <div
+          className="
+            flex items-center justify-between 
+            border-b border-[#A0937D]/40 pb-3 mb-4
+          "
+        >
+          <h2 className="text-xl font-semibold text-[#D8A35D] drop-shadow">
+            Update Expense
+          </h2>
+          <button
+            onClick={() => dispatch(closeUpdateModal())}
+            className="text-[#D8A35D] text-xl hover:text-[#F9F6EF] transition"
+          >
+            ✕
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,20 +92,40 @@ function UpdateExpense() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full border rounded-md px-3 py-2"
+            className="
+              w-full px-3 py-2 rounded-md bg-transparent
+              border border-[#A0937D]/40
+              text-[#F9F6EF]
+              focus:border-[#D8A35D] focus:outline-none
+              transition
+            "
             placeholder="Title"
           />
+
           <input
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full border rounded-md px-3 py-2"
+            className="
+              w-full px-3 py-2 rounded-md bg-transparent
+              border border-[#A0937D]/40
+              text-[#F9F6EF]
+              focus:border-[#D8A35D] focus:outline-none
+              transition
+            "
             placeholder="Amount"
           />
+
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full border rounded-md px-3 py-2 bg-gray-900"
+            className="
+              w-full px-3 py-2 rounded-md 
+              bg-[#1B1B1D] text-[#F9F6EF]
+              border border-[#A0937D]/40
+              focus:border-[#D8A35D] focus:outline-none
+              transition
+            "
           >
             <option value="">Select Category</option>
             <option value="Food">Food</option>
@@ -92,24 +133,49 @@ function UpdateExpense() {
             <option value="Shopping">Shopping</option>
             <option value="Other">Other</option>
           </select>
+
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full border rounded-md px-3 py-2"
+            className="
+              w-full px-3 py-2 rounded-md bg-transparent
+              border border-[#A0937D]/40
+              text-[#F9F6EF]
+              focus:border-[#D8A35D] focus:outline-none
+              transition
+            "
           />
 
-          <div className="flex justify-end gap-3 border-t pt-4">
+          <div
+            className="
+              flex justify-end gap-3 
+              border-t border-[#A0937D]/40 pt-4
+            "
+          >
             <button
               type="button"
               onClick={() => dispatch(closeUpdateModal())}
-              className="px-4 py-2 border rounded-md hover:bg-red-500 hover:text-white"
+              className="
+                px-4 py-2 rounded-md border border-[#A0937D]/40
+                text-[#F9F6EF]
+                hover:bg-red-600 hover:border-red-600
+                transition
+              "
             >
               Cancel
             </button>
+
             <button
               type="submit"
-              className="px-5 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+              className="
+                px-5 py-2 rounded-md 
+                bg-[#D8A35D] text-[#1B1B1D]
+                shadow-[0_0_12px_rgba(216,163,93,0.65)]
+                hover:bg-[#F9F6EF]
+                transition
+                font-semibold
+              "
             >
               Update
             </button>

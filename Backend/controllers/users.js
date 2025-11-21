@@ -3,10 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// ___________________________________
-//Validation remaining 
-// ___________________________________
-
 const updatedUser = async(req,res)=>{
   try {
     const id = req.params.id;
@@ -16,7 +12,7 @@ const updatedUser = async(req,res)=>{
     if(rslt.affectedRows === 0){
      return res.status(404).json({ msg: "data not found" });
     }
-    return res.status(200).json({ msg: "User Update Successfully" });
+    return res.status(200).json({ msg: "User Update Successfully"});
   } catch (error) {
     return res.status(500).json({ msg: "Internal server error" });
   }
@@ -37,16 +33,16 @@ const getUserById = async(req,res)=>{
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phonNum } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !phonNum) {
       return res.status(400).json({ msg: "All fields are required ❌" });
     }
     //hashing the password
   const hashPassword = await bcrypt.hash(password, 10);
 
-    const sql = "INSERT INTO users(name,email,password) VALUES(?,?,?)";
-    const data = await db.query(sql, [name, email, hashPassword]);
+    const sql = "INSERT INTO users(name,email,phonNum,password) VALUES(?,?,?,?)";
+    const data = await db.query(sql, [name, email,phonNum, hashPassword]);
 
     if (!data) {
       console.log("Something Went Wrong ❌");

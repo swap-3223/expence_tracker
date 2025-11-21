@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// ✅ Fetch expenses from backend
 export const getExpenses = createAsyncThunk(
   "expenses/getExpenses",
   async (_, { rejectWithValue }) => {
@@ -12,7 +11,7 @@ export const getExpenses = createAsyncThunk(
       if (!token) {
         return rejectWithValue("No token found, please login again");
       }
-      const res = await axios.get("http://localhost:5000/api/v1/expense/getExpense", {
+      const res = await axios.get("http://localhost:4000/api/v1/expense/getExpense", {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;
@@ -27,7 +26,7 @@ const ExpenseSlice = createSlice({
   initialState: {
     openModal: false,
     openUpdateModal: false,
-    selectedExpense: null, // ✅ new field
+    selectedExpense: null, 
     expenses: [],
     loading: false,
     error: null,
@@ -41,11 +40,11 @@ const ExpenseSlice = createSlice({
     },
     openUpdateModal: (state, action) => {
       state.openUpdateModal = true;
-      state.selectedExpense = action.payload; // ✅ store expense to edit
+      state.selectedExpense = action.payload; 
     },
     closeUpdateModal: (state) => {
       state.openUpdateModal = false;
-      state.selectedExpense = null; // ✅ clear selection
+      state.selectedExpense = null;
     },
   },
   extraReducers: (builder) => {

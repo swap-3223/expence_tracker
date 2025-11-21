@@ -4,61 +4,63 @@ import { closeModal } from "../redux/features/ExpenseSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { getExpenses } from "../redux/features/ExpenseSlice";
+
 function AddExpense() {
   const isOpen = useSelector((state) => state.expenseModal.openModal);
   const dispatch = useDispatch();
-  const [title,setTitle] = useState('')
-  const [ amount,setAmount] = useState('')
-  const [category,setCategory] = useState('')
-  const [date,setDate] = useState('')
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("");
+  const [date, setDate] = useState("");
 
-  const handleSubmit=async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!title || !amount || !category || !date){
-      return toast.error("All fields are mendetory")
+    if (!title || !amount || !category || !date) {
+      return toast.error("All fields are mandatory");
     }
-    try{
-      const user =JSON.parse(localStorage.getItem('user'))
+
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
       const token = user?.token;
 
-      if(!token){
-        toast.error("Token not provided :(")
-      }
-      const res = await axios.post('http://localhost:5000/api/v1/expense/addExpense',
-        {title,amount,category,date},{
-          headers:{
-            Authorization:`Bearer ${token}`
-          }
+      if (!token) return toast.error("Token missing!");
+
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/expense/addExpense",
+        { title, amount, category, date },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
-      )
-    console.log(res)
-    toast.success("Expense Added Successfully")
-    setTimeout(() => {
-      dispatch(closeModal())
-      
-    }, 300);
-    dispatch(getExpenses())
-  }catch(error){
-    console.error("❌ Error adding expense:", error.response?.data || error.message);
-    toast.error(error.response?.data?.msg || "Something went wrong");
-  }
-}
+      );
+
+      toast.success("Expense Added Successfully");
+      dispatch(getExpenses());
+
+      setTimeout(() => dispatch(closeModal()), 300);
+    } catch (error) {
+      console.error("❌ Error adding expense:", error);
+      toast.error(error.response?.data?.msg || "Something went wrong");
+    }
+  };
 
   return (
     <>
       {isOpen && (
         <div
           onClick={() => dispatch(closeModal())}
-          className="fixed inset-0 z-999 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+          className="fixed inset-0 z-50 flex items-center justify-center 
+                     bg-black/70 backdrop-blur-sm px-4"
         >
-          {/* Modal Box */}
+
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative bg-white dark:bg-gray-900 text-slate-800 dark:text-gray-100 rounded-2xl shadow-lg w-full max-w-md p-6 animate-fadeIn"
+            className="relative bg-[#141415] text-[#F9F6EF] 
+                       rounded-2xl shadow-lg shadow-[#D8A35D]/20 
+                       w-full max-w-md p-6 animate-fadeIn border border-[#2a2a2e]"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b pb-3 mb-4">
-              <h2 className="text-xl font-semibold text-blue-600 dark:text-blue-400">
+
+            <div className="flex items-center justify-between border-b border-[#2a2a2e] pb-3 mb-4">
+              <h2 className="text-xl font-semibold text-[#D8A35D]">
                 Add New Expense
               </h2>
               <button
@@ -69,39 +71,45 @@ function AddExpense() {
               </button>
             </div>
 
-            {/* Form Content */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1">
+                <label className="block text-sm font-medium text-[#A0937D] mb-1">
                   Title
                 </label>
                 <input
-                  onChange={(e)=>{e.preventDefault(); setTitle(e.target.value)}}
+                  onChange={(e) => setTitle(e.target.value)}
                   type="text"
                   placeholder="e.g. Grocery shopping"
-                  className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-[#2a2a2e] bg-[#0E0E0F] text-[#F9F6EF]
+                             rounded-md px-3 py-2 text-sm placeholder-gray-500 
+                             focus:outline-none focus:ring-2 focus:ring-[#D8A35D]"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1">
+                <label className="block text-sm font-medium text-[#A0937D] mb-1">
                   Amount
                 </label>
                 <input
-                  onChange={(e)=>{e.preventDefault(); setAmount(e.target.value)}}
+                  onChange={(e) => setAmount(e.target.value)}
                   type="number"
                   placeholder="e.g. 1200"
-                  className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-[#2a2a2e] bg-[#0E0E0F] text-[#F9F6EF]
+                             rounded-md px-3 py-2 text-sm placeholder-gray-500 
+                             focus:outline-none focus:ring-2 focus:ring-[#D8A35D]"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1">
+                <label className="block text-sm font-medium text-[#A0937D] mb-1">
                   Category
                 </label>
-                <select                   
-                  onChange={(e)=>{e.preventDefault(); setCategory(e.target.value)}}
-                  className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full border border-[#2a2a2e] bg-[#0E0E0F] text-[#F9F6EF]
+                             rounded-md px-3 py-2 text-sm focus:outline-none 
+                             focus:ring-2 focus:ring-[#D8A35D]"
+                >
                   <option value="">Select Category</option>
                   <option value="Food">🍔 Food</option>
                   <option value="Rent">🏠 Rent</option>
@@ -111,28 +119,32 @@ function AddExpense() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1">
+                <label className="block text-sm font-medium text-[#A0937D] mb-1">
                   Date
                 </label>
                 <input
-                  onChange={(e)=>{e.preventDefault(); setDate(e.target.value)}}
+                  onChange={(e) => setDate(e.target.value)}
                   type="date"
-                  className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-[#2a2a2e] bg-[#0E0E0F] text-[#F9F6EF]
+                             rounded-md px-3 py-2 text-sm focus:outline-none 
+                             focus:ring-2 focus:ring-[#D8A35D]"
                 />
               </div>
 
-              {/* Buttons */}
-              <div className="flex justify-end gap-3 pt-4 border-t">
+              <div className="flex justify-end gap-3 pt-4 border-t border-[#2a2a2e]">
                 <button
                   type="button"
                   onClick={() => dispatch(closeModal())}
-                  className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 hover:bg-red-500 hover:text-white transition"
+                  className="px-4 py-2 rounded-md border border-[#2a2a2e] text-[#A0937D]
+                             hover:bg-red-500 hover:text-white transition"
                 >
                   Cancel
                 </button>
+
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                  className="px-5 py-2 rounded-md bg-[#D8A35D] text-black font-semibold
+                             hover:bg-[#c18f4f] shadow-md hover:shadow-[#D8A35D]/40 transition"
                 >
                   Add Expense
                 </button>
@@ -144,6 +156,4 @@ function AddExpense() {
     </>
   );
 }
-
 export default AddExpense;
-
