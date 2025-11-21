@@ -14,11 +14,10 @@ const sendMail = async({name,email,message})=>{
 
 
         const mailOption={
-      from: process.env.MAIL_USER,
-      replyTo: email,
-      to: process.env.MAIL_USER,
-      subject: `New Contact Message from ${name}`,
-      html: `
+            from:email,
+            to:process.env.MAIL_USER,
+            subject:`New Contact Message from ${name}`,
+            html: `
   <div style="font-family: 'Segoe UI', Tahoma, sans-serif; padding: 20px; background: #f4f6f8;">
     <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
       
