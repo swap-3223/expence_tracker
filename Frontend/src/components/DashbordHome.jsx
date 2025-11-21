@@ -72,7 +72,7 @@ function DashboardHome() {
 
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-[#d4af37] drop-shadow-lg">
+        <h1 className="text-3xl ml-8 font-bold text-[#d4af37] drop-shadow-lg">
           Dashboard Overview
         </h1>
         <button

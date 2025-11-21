@@ -37,7 +37,7 @@ function UpdateExpense() {
       const token = user?.token;
 
       await axios.put(
-        `${API}api/v1/expense/updateExpense/${selectedExpense.id}`,
+        `${API}/api/v1/expense/updateExpense/${selectedExpense.id}`,
         { title, amount, category, date },
         {
           headers: { Authorization: `Bearer ${token}` },

@@ -73,7 +73,7 @@ function History() {
 
   return (
     <div className="w-full min-h-screen bg-black p-6 text-[#EDEDED]">
-      <h1 className="text-2xl font-bold text-[#FFBA00] mb-6">
+      <h1 className="text-2xl font-bold text-[#FFBA00] ml-8 mb-6">
         Transaction Summary
       </h1>
 

@@ -93,7 +93,7 @@ function ReportsPage() {
     <div className="min-h-screen bg-[#1B1B1D] p-6 text-[#F9F6EF]">
       
 
-      <h1 className="text-3xl font-bold mb-6 text-[#D8A35D]">
+      <h1 className="text-3xl font-bold mb-6 ml-8 text-[#D8A35D]">
         Analytics & Reports
       </h1>
 

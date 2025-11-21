@@ -37,7 +37,7 @@ function Sidebar() {
         {/* Close button for mobile */}
         <button
           onClick={() => setIsOpen(false)}
-          className="md:hidden self-end mb-4 text-[#D8A35D] text-xl"
+          className="md:hidden self-end mt-5 text-[#D8A35D] text-xl"
         >
           ✕
         </button>

@@ -8,7 +8,7 @@ function Footer() {
         className="
           bg-black
           text-center
-          py-6
+          p-5
           border-t border-neutral-800
           text-[#EDEDED]
         "
