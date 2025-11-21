@@ -8,13 +8,14 @@ function Profile() {
   const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [updatedUser, setUpdatedUser] = useState(user);
+  const API = 'https://expence-tracker-9uzt.onrender.com';
 
   const localUser = JSON.parse(localStorage.getItem("user"));
   const id = localUser.id;
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/v1/users/getUser/${id}`)
+      .get(`${API}/api/v1/users/getUser/${id}`)
       .then((res) => {
         setUser(res.data.userData);
         setUpdatedUser(res.data.userData);
@@ -27,7 +28,7 @@ function Profile() {
   };
 
   const handleSave = () => {
-    axios.put(`http://localhost:4000/api/v1/users/updateUser/${id}`, {
+    axios.put(`${API}/api/v1/users/updateUser/${id}`, {
       name: updatedUser.name,
       email: updatedUser.email,
       phonNum: updatedUser.phonNum,

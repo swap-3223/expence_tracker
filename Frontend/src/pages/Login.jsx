@@ -8,6 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoding] = useState(false);
+  const API = 'https://expence-tracker-9uzt.onrender.com';
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,7 +16,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/api/v1/users/login", {
+      const res = await axios.post(`${API}/api/v1/users/login`, {
         email: form.email,
         password: form.password,
       });

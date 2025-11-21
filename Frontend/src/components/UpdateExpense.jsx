@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 
 function UpdateExpense() {
   const dispatch = useDispatch();
+  const API = 'https://expence-tracker-9uzt.onrender.com';
+
   const isOpen = useSelector((state) => state.expenseModal.openUpdateModal);
   const selectedExpense = useSelector(
     (state) => state.expenseModal.selectedExpense
@@ -35,7 +37,7 @@ function UpdateExpense() {
       const token = user?.token;
 
       await axios.put(
-        `http://localhost:4000/api/v1/expense/updateExpense/${selectedExpense.id}`,
+        `${API}api/v1/expense/updateExpense/${selectedExpense.id}`,
         { title, amount, category, date },
         {
           headers: { Authorization: `Bearer ${token}` },

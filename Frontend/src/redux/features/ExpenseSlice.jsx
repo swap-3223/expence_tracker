@@ -11,7 +11,7 @@ export const getExpenses = createAsyncThunk(
       if (!token) {
         return rejectWithValue("No token found, please login again");
       }
-      const res = await axios.get("http://localhost:4000/api/v1/expense/getExpense", {
+      const res = await axios.get("https://expence-tracker-9uzt.onrender.com/api/v1/expense/getExpense", {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;

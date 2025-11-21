@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 function History() {
   const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
+  const API = 'https://expence-tracker-9uzt.onrender.com';
 
   const { expenses = [], loading, error } = useSelector(
     (state) => state.expenseModal
@@ -22,7 +23,7 @@ function History() {
     const token = user?.token;
     try {
       const res = await axios.delete(
-        `http://localhost:4000/api/v1/expense/deleteExpense/${id}`,
+        `${API}/api/v1/expense/deleteExpense/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

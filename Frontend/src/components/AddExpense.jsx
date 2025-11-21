@@ -13,6 +13,7 @@ function AddExpense() {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
 
+  const API = 'https://expence-tracker-9uzt.onrender.com';
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !amount || !category || !date) {
@@ -26,7 +27,7 @@ function AddExpense() {
       if (!token) return toast.error("Token missing!");
 
       const res = await axios.post(
-        "http://localhost:4000/api/v1/expense/addExpense",
+        `${API}/api/v1/expense/addExpense`,
         { title, amount, category, date },
         {
           headers: { Authorization: `Bearer ${token}` },
