@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const API = 'https://expence-tracker-9uzt.onrender.com';
 
   const [form, setForm] = useState({
     name: "",
