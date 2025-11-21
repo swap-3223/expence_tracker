@@ -3,18 +3,22 @@ require('dotenv').config()
 const sendMail = async({name,email,message})=>{
     try {
         const transporter = nodeMailer.createTransport({
-            service:'gmail',
-            auth:{
-                user:process.env.MAIL_USER,
-                pass:process.env.MAIL_PASS
-            }
-        })
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
+  },
+});
+
 
         const mailOption={
-            from:email,
-            to:process.env.MAIL_USER,
-            subject:`New Contact Message from ${name}`,
-            html: `
+      from: process.env.MAIL_USER,
+      replyTo: email,
+      to: process.env.MAIL_USER,
+      subject: `New Contact Message from ${name}`,
+      html: `
   <div style="font-family: 'Segoe UI', Tahoma, sans-serif; padding: 20px; background: #f4f6f8;">
     <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
       

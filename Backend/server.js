@@ -13,8 +13,6 @@ app.use('/api/v1/users',userRouter)
 app.use('/api/v1/expense',expenseRouter)
 app.use('/api/v1/contactMsg',contactMsgRouter)
 
-
-
 const PORT = process.env.PORT || 9000
 
 db.query('select 1')
