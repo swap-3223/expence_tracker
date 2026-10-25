@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import Dashbord from "./components/Dashbord";
@@ -16,7 +16,13 @@ import PvtComponent from "./components/ProtedtedComp";
 import { Toaster } from "react-hot-toast";
 import TokenChecker from "./components/TokenChecker";
 import UpdateExpense from "./components/UpdateExpense";
+
 function App() {
+  useEffect(() => {
+    const API = import.meta.env.VITE_API_URL || 'https://expence-tracker-9uzt.onrender.com';
+    fetch(`${API}/api/v1/users/login`, { method: "OPTIONS" }).catch(() => {});
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",

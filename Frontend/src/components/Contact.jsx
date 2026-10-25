@@ -10,7 +10,6 @@ function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const API = 'https://expence-tracker-9uzt.onrender.com';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +29,7 @@ function Contact() {
       setLoading(true);
 
       const res = await axios.post(
-        `${API}/api/v1/contactMsg/postMsg`,
+        `https://expence-tracker-9uzt.onrender.com/api/v1/contactMsg/postMsg`,
         { name, email, message },
         {
           headers: { Authorization: `Bearer ${token}` },

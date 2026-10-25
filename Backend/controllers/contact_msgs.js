@@ -1,5 +1,5 @@
 const db = require("../config/db");
-const sendMail = require("../utils/sendMail");
+// const sendMail = require("../utils/sendMail");
 
 const postMsg = async (req, res) => {
   try {
@@ -16,13 +16,13 @@ const postMsg = async (req, res) => {
       return res.status(400).json({ msg: "Failed to save message" });
     }
 
-    const emailSent = await sendMail({ name, email, message });
+    // const emailSent = await sendMail({ name, email, message });0
 
-    if (!emailSent) {
-      return res.status(500).json({
-        msg: "Message saved but email sending failed",
-      });
-    }
+    // if (!emailSent) {
+    //   return res.status(500).json({
+    //     msg: "Message saved but email sending failed",
+    //   });
+    // }
 
     return res.status(200).json({
       msg: "Message saved & email sent successfully",

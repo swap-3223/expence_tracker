@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const API = 'https://expence-tracker-9uzt.onrender.com';
+  const API = import.meta.env.VITE_API_URL || 'https://expence-tracker-9uzt.onrender.com';
 
   const [form, setForm] = useState({
     name: "",
@@ -14,6 +14,25 @@ const Signup = () => {
     password: "",
     phonNum: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Loading...");
+
+  useEffect(() => {
+    if (!loading) {
+      setLoadingText("Loading...");
+      return;
+    }
+    const timer1 = setTimeout(() => {
+      setLoadingText("Connecting...");
+    }, 2500);
+    const timer2 = setTimeout(() => {
+      setLoadingText("Waking up server...");
+    }, 5500);
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, [loading]);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,8 +40,15 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!form.name || !form.email || !form.password || !form.phonNum) {
+      toast.error("Please fill in all fields!");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const res = await axios.post(
+      await axios.post(
         `${API}/api/v1/users/register`,
         {
           name: form.name,
@@ -31,18 +57,15 @@ const Signup = () => {
           phonNum: form.phonNum,
         }
       );
-      if (form.name && form.email && form.password && form.phonNum) {
-        toast.success("Account Created Successfully");
+      toast.success("Account Created Successfully");
 
-        setTimeout(() => {
-          navigate("/login");
-        }, 1500);
-      } else {
-        toast.error("Please fill in all fields!");
-      }
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     } catch (err) {
+      setLoading(false);
       console.log(err);
-      toast.error("Signup failed");
+      toast.error(err?.response?.data?.msg || "Signup failed");
     }
   };
 
@@ -77,10 +100,13 @@ const Signup = () => {
               required
               type="text"
               name="name"
+              value={form.name}
               onChange={handleChange}
+              disabled={loading}
               className="w-full p-2 rounded-md bg-[#1A1A1A] 
               border border-[#FFD700]/20 
-              focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+              focus:outline-none focus:ring-2 focus:ring-[#FFD700]
+              disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter your full name"
             />
           </div>
@@ -91,10 +117,13 @@ const Signup = () => {
               required
               type="email"
               name="email"
+              value={form.email}
               onChange={handleChange}
+              disabled={loading}
               className="w-full p-2 rounded-md bg-[#1A1A1A] 
               border border-[#FFD700]/20 
-              focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+              focus:outline-none focus:ring-2 focus:ring-[#FFD700]
+              disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter your email"
             />
           </div>
@@ -103,12 +132,19 @@ const Signup = () => {
             <label className="block mb-2 text-[#FFD700]/80">Mobile Number</label>
             <input
               required
-              type="text"
+              type="tel"
               name="phonNum"
+              value={form.phonNum}
               onChange={handleChange}
+              disabled={loading}
+              inputMode="numeric"
+              maxLength={10}
+              pattern="[0-9]{10}"
+              title="Enter a 10-digit mobile number"
               className="w-full p-2 rounded-md bg-[#1A1A1A] 
               border border-[#FFD700]/20 
-              focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+              focus:outline-none focus:ring-2 focus:ring-[#FFD700]
+              disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter your Mobile Number"
             />
           </div>
@@ -119,21 +155,26 @@ const Signup = () => {
               required
               type="password"
               name="password"
+              value={form.password}
               onChange={handleChange}
+              disabled={loading}
               className="w-full p-2 rounded-md bg-[#1A1A1A] 
               border border-[#FFD700]/20 
-              focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+              focus:outline-none focus:ring-2 focus:ring-[#FFD700]
+              disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Create a password"
             />
           </div>
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-[#FFD700] text-black font-semibold 
             py-2 rounded-md transition hover:bg-[#e6c200] 
-            shadow-[0_0_15px_rgba(255,215,0,0.4)]"
+            shadow-[0_0_15px_rgba(255,215,0,0.4)]
+            disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Sign Up
+            {loading ? loadingText : "Sign Up"}
           </button>
         </form>
 
